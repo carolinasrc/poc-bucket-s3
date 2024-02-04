@@ -1,0 +1,77 @@
+project:
+  version: @version@
+server:
+  port: 8080
+
+info:
+  app:
+    name: '@project.name@'
+    description: '@project.description@'
+    version: '@project.version@'
+
+spring:
+  application:
+    name: poc-bucket-s3
+  cloud:
+    aws:
+      bucket:
+        bucketName: ${S3_STORAGE_NAME}
+        region: ${S3_STORAGE_REGION}
+    stream:
+      kafka:
+        binder:
+          configuration:
+            retries: ${KAFKA_RETRIES}
+          brokers: ${KAFKA_BROKERS}
+          autoAddPartitions: true
+          replication-factor: 1
+          autoCreateTopics: ${AUTO_CREATE_KAFKA_TOPICS:false}
+          producer-properties:
+            key:
+              serializer: org.apache.kafka.common.serialization.StringSerializer
+        bindings:
+          regulatory5005Events-in-0:
+            consumer:
+              enableDlq: false
+      bindings:
+        regulatory5005Events-in-0:
+          destination: ${KAFKA_TOPIC}
+          group: ${KAFKA_GROUP_ID}
+          contentType: application/json
+          consumer:
+            maxAttempts: ${KAFKA_EVENT_ATTEMPTS}
+            concurrency: ${KAFKA_EVENT_CONCURRENCY}
+      function:
+        definition: regulatory5005Events
+  jpa:
+    open-in-view: false
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+    database-platform: org.hibernate.dialect.MySQLDialect
+
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${BD_MYSQL_HOST}:${BD_MYSQL_PORT}/${BD_MYSQL_DB}
+    username: ${BD_MYSQL_LOGIN}
+    password: ${BD_MYSQL_PASSWORD}
+    test-on-borrow: true
+    validation-query: SELECT 1
+    validation-interval: 5000
+    continue-on-error: true
+    hikari:
+      connection-timeout: 30000
+      minimum-idle: 5
+      maximum-pool-size: 50
+      idle-timeout: 120000
+      max-lifetime: 28800000
+      pool-name: ${spring.application.name}
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  override-with-generic-response: false
+  paths-to-exclude: /**/api-docs,/swagger-resources/**
+  swagger-ui:
+    disable-swagger-default-url: true
+    path: /swagger-ui.html
