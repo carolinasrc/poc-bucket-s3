@@ -17,6 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public final class ErrorPresenter {
+
   private String timestamp;
   private Integer status;
   private String error;

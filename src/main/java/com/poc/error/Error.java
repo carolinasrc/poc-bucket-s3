@@ -10,6 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public final class Error {
+
   private String uniqueId;
   private String informationCode;
   private String message;
