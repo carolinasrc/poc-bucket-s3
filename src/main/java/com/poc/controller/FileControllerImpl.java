@@ -1,9 +1,9 @@
 package com.poc.controller;
 
 import com.poc.dto.FileDto;
-import com.poc.response.FileEntityResponse;
 import com.poc.response.FileResponse;
 import com.poc.response.ListFilesResponse;
+import com.poc.response.PersistedFileResponse;
 import com.poc.service.FileActionsService;
 import com.poc.service.FileService;
 import lombok.RequiredArgsConstructor;
@@ -59,9 +59,9 @@ public final class FileControllerImpl implements FileController {
     }
 
     @Override
-    public ResponseEntity<FileEntityResponse> uploadFile(final MultipartFile file) throws IOException {
+    public ResponseEntity<PersistedFileResponse> uploadFile(final MultipartFile file) throws IOException {
         FileDto fileEntityDto = fileActionsService.uploadFile(file);
-        final var responseDTO = new FileEntityResponse(fileEntityDto);
+        final var responseDTO = new PersistedFileResponse(fileEntityDto);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 

@@ -22,7 +22,7 @@ import static com.poc.enums.StatusEnum.FILE_VALIDATION_ERROR;
 @Service
 @Scope("singleton")
 @RequiredArgsConstructor
-public class CadocStatusSingleton {
+public class StatusSingleton {
 
     @Getter
     private FileStatusDto received;

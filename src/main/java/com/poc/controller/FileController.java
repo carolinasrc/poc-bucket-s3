@@ -2,8 +2,8 @@ package com.poc.controller;
 
 import com.poc.config.ApiBasicResponses;
 import com.poc.response.FileDownloadResponse;
-import com.poc.response.FileEntityResponse;
 import com.poc.response.ListFilesResponse;
+import com.poc.response.PersistedFileResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -59,7 +59,7 @@ public interface FileController {
         produces = APPLICATION_JSON_VALUE)
     @ApiResponse(responseCode = "200",
         description = "Arquivo recebido com sucesso",
-        content = @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = FileEntityResponse.class)))
-    ResponseEntity<FileEntityResponse> uploadFile(@RequestPart final MultipartFile file) throws IOException;
+        content = @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = PersistedFileResponse.class)))
+    ResponseEntity<PersistedFileResponse> uploadFile(@RequestPart final MultipartFile file) throws IOException;
 
 }

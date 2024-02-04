@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class FileEntityResponse {
+public class PersistedFileResponse {
 
     private FileDto data;
 

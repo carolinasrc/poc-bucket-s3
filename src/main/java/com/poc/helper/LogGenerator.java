@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public final class LogGenerator {
+
   private LogGenerator(){}
 
   public static String logMsg(final String fileName, final String message) {

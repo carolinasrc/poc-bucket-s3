@@ -2,7 +2,7 @@ package com.poc.service;
 
 import com.poc.dto.FileDto;
 import com.poc.filesystem.BucketClient;
-import com.poc.singleton.CadocStatusSingleton;
+import com.poc.singleton.StatusSingleton;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class FileActionsService {
 
     private final BucketClient s3Client;
     private final FileService fileService;
-    private final CadocStatusSingleton cadocStatusSingleton;
+    private final StatusSingleton statusSingleton;
 
     public StreamingResponseBody downloadFile(final String fileName) throws IOException {
         log.info(fileName, "Iniciando download do arquivo...");
@@ -36,17 +36,17 @@ public class FileActionsService {
         log.info(file.getName(), "Iniciando upload do arquivo...");
 
         s3Client.uploadFile(file);
-        final var fileEntityDto = persistFileInformation(file);
+        final var persistedFile = persistFileInformation(file);
 
         log.info(file.getName(), "Arquivo enviado");
-        return fileEntityDto;
+        return persistedFile;
     }
 
     private FileDto persistFileInformation(final MultipartFile file) {
 
         final var fileName = file.getOriginalFilename();
         final var fileSize = file.getSize();
-        final var statusId = cadocStatusSingleton.getReceived().getId();
+        final var statusId = statusSingleton.getReceived().getId();
         final var loadDate = LocalDate.now();
         final var startProcessTime = LocalDateTime.now();
 
